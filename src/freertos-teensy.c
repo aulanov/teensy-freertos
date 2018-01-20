@@ -40,3 +40,11 @@ void vApplicationStackOverflowHook( xTaskHandle pxTask, char *pcTaskName )
   fault_isr();
   for( ;; );
 }
+
+void *pvPortMalloc(size_t xWantedSize) {
+  return malloc(xWantedSize);
+}
+
+void vPortFree(void *pv) {
+  return free(pv);
+}

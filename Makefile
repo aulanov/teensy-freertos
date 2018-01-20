@@ -18,7 +18,6 @@ OPTIONS = -DUSB_SERIAL -DLAYOUT_US_ENGLISH
 # directory to build in
 BUILDDIR = $(abspath $(CURDIR)/build)
 
-HEAP = heap_2.c
 #************************************************************************
 # Location of Teensyduino utilities, Toolchain, and Arduino Libraries.
 # To use this makefile without Arduino, copy the resources from these
@@ -121,7 +120,6 @@ INO_FILES := $(wildcard src/*.ino)
 
 FREERTOS_FILES = $(wildcard $(FREERTOSPATH)/*.c) 
 FREERTOS_FILES += $(wildcard $(FREERTOSPATH)/$(FREERTOSPORT)/*.c)
-FREERTOS_FILES += $(FREERTOSPATH)/portable/MemMang/$(HEAP)
 
 # include paths for libraries
 L_INC := $(foreach lib,$(filter %/, $(wildcard $(LIBRARYPATH)/*/)), -I$(lib))
