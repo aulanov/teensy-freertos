@@ -89,7 +89,7 @@ else ifeq ($(TEENSY), 35)
     LIBS += -larm_cortexM4lf_math
 else ifeq ($(TEENSY), 36)
     CPPFLAGS += -D__MK66FX1M0__ -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
-    LDSCRIPT = src/mk66fx1m0.ld
+    LDSCRIPT = $(COREPATH)/mk66fx1m0.ld
     LDFLAGS += -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T$(LDSCRIPT)
     LIBS += -larm_cortexM4lf_math
 else
