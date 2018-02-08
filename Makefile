@@ -2,11 +2,10 @@
 TARGET = $(notdir $(CURDIR))
 
 # The teensy version to use, 30, 31, 35, 36, or LC
-TEENSY = 36
+TEENSY = 31
 
-# Set to 24000000, 48000000, or 96000000 to set CPU core speed
-#TEENSY_CORE_SPEED = 48000000
-TEENSY_CORE_SPEED = 180000000
+TEENSY_CORE_SPEED = 72000000
+#TEENSY_CORE_SPEED = 180000000
 
 # Some libraries will require this to be defined
 # If you define this, you will break the default main.cpp
@@ -47,7 +46,6 @@ COMPILERPATH = $(TOOLSPATH)/arm/bin
 
 # path location for FreeRTOS directory structure
 FREERTOSPATH = FreeRTOS/Source
-FREERTOSPORT = portable/GCC/ARM_CM4F
 
 #************************************************************************
 # Settings below this point usually do not need to be edited
@@ -70,13 +68,15 @@ LIBS = -lm
 
 # compiler options specific to teensy version
 ifeq ($(TEENSY), 30)
-    CPPFLAGS += -D__MK20DX128__ -mcpu=cortex-m4
+    CPPFLAGS += -D__MK20DX128__ -mcpu=cortex-m4 -fsingle-precision-constant
     LDSCRIPT = $(COREPATH)/mk20dx128.ld
     LDFLAGS += -mcpu=cortex-m4 -T$(LDSCRIPT)
+    FREERTOSPORT = portable/GCC/ARM_CM3
 else ifeq ($(TEENSY), 31)
-    CPPFLAGS += -D__MK20DX256__ -mcpu=cortex-m4
+    CPPFLAGS += -D__MK20DX256__ -mcpu=cortex-m4 -fsingle-precision-constant
     LDSCRIPT = $(COREPATH)/mk20dx256.ld
     LDFLAGS += -mcpu=cortex-m4 -T$(LDSCRIPT)
+    FREERTOSPORT = portable/GCC/ARM_CM3
 else ifeq ($(TEENSY), LC)
     CPPFLAGS += -D__MKL26Z64__ -mcpu=cortex-m0plus
     LDSCRIPT = $(COREPATH)/mkl26z64.ld
@@ -87,11 +87,13 @@ else ifeq ($(TEENSY), 35)
     LDSCRIPT = $(COREPATH)/mk64fx512.ld
     LDFLAGS += -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T$(LDSCRIPT)
     LIBS += -larm_cortexM4lf_math
+    FREERTOSPORT = portable/GCC/ARM_CM4F
 else ifeq ($(TEENSY), 36)
     CPPFLAGS += -D__MK66FX1M0__ -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
     LDSCRIPT = $(COREPATH)/mk66fx1m0.ld
     LDFLAGS += -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T$(LDSCRIPT)
     LIBS += -larm_cortexM4lf_math
+    FREERTOSPORT = portable/GCC/ARM_CM4F
 else
     $(error Invalid setting for TEENSY)
 endif
